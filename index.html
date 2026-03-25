@@ -2,64 +2,86 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>AI广告诊断 Demo</title>
+  <title>AI广告诊断系统（终极版）</title>
 </head>
 
-<body style="font-family: Arial; padding: 20px; background: #f7f7f7;">
+<body style="font-family: Inter, Arial; background:#f3f5f9; margin:0;">
 
-<h2>🤖 AI广告诊断系统 Demo</h2>
+<div style="display:flex; height:100vh;">
 
-<!-- 输入区 -->
-<div style="background: white; padding: 16px; border-radius: 10px; margin-bottom: 20px;">
-  <h3>📊 输入广告数据</h3>
-  <p>曝光：10,000</p>
-  <p>点击：200</p>
-  <p>转化：2</p>
-  <p>CTR：2%</p>
-  <p>CVR：1%</p>
+  <!-- 左侧输入 -->
+  <div style="width:30%; background:white; padding:20px;">
+    <h3>📊 输入广告数据</h3>
 
-  <button onclick="runDiagnosis()" style="margin-top:10px; padding:8px 12px;">
-    开始诊断
-  </button>
-</div>
+    <p>曝光</p>
+    <input id="imp" value="10000" style="width:100%;margin-bottom:10px;">
 
-<!-- Agent流程 -->
-<div id="steps" style="background: white; padding: 16px; border-radius: 10px; margin-bottom: 20px;">
-  <h3>🧠 Agent分析过程</h3>
-  <p>（点击按钮后展示）</p>
-</div>
+    <p>点击</p>
+    <input id="clk" value="200" style="width:100%;margin-bottom:10px;">
 
-<!-- 输出结果 -->
-<div id="result" style="background: white; padding: 16px; border-radius: 10px;">
-  <h3>📈 诊断结果</h3>
-  <p>（等待分析）</p>
+    <p>转化</p>
+    <input id="conv" value="2" style="width:100%;margin-bottom:20px;">
+
+    <button onclick="startAI()" style="width:100%;padding:10px;">
+      🚀 开始AI诊断
+    </button>
+  </div>
+
+  <!-- 右侧对话 -->
+  <div style="width:70%; padding:20px;">
+
+    <h2>🤖 AI广告诊断助手</h2>
+
+    <div id="chat" style="background:white;height:70%;overflow:auto;padding:15px;border-radius:12px;margin-bottom:10px;">
+      <p>👋 你好，我可以帮你分析广告问题</p>
+    </div>
+
+    <input id="userInput" placeholder="继续提问..." style="width:80%;padding:10px;">
+    <button onclick="askAI()">发送</button>
+
+  </div>
+
 </div>
 
 <script>
-function runDiagnosis() {
 
-  // Step 1
-  document.getElementById("steps").innerHTML = `
-  <h3>🧠 Agent分析过程</h3>
-  <p>① 问题定义：转化率明显偏低（CVR=1%）</p>
-  <p>② 漏斗分析：曝光→点击正常，点击→转化严重下降</p>
-  <p>③ 指标归因：问题集中在转化环节</p>
-  <p>④ 原因推测：素材与落地页不匹配 / 用户意图不强</p>
-  `;
-
-  // Step 2
-  document.getElementById("result").innerHTML = `
-  <h3>📈 诊断结果</h3>
-  <p><b>核心问题：</b>转化率低</p>
-  <p><b>可能原因：</b>素材吸引点击但不促转化</p>
-  <p><b>优化建议：</b></p>
-  <ul>
-    <li>优化落地页一致性</li>
-    <li>调整定向人群（提升购买意图）</li>
-    <li>测试更强转化导向素材</li>
-  </ul>
-  `;
+function addMessage(text){
+  let chat = document.getElementById("chat");
+  chat.innerHTML += "<p>" + text + "</p>";
+  chat.scrollTop = chat.scrollHeight;
 }
+
+function startAI(){
+
+  let imp = document.getElementById("imp").value;
+  let clk = document.getElementById("clk").value;
+  let conv = document.getElementById("conv").value;
+
+  let ctr = (clk/imp*100).toFixed(2);
+  let cvr = (conv/clk*100).toFixed(2);
+
+  addMessage("📊 数据已接收：CTR=" + ctr + "%，CVR=" + cvr + "%");
+
+  setTimeout(()=> addMessage("🧠 Problem Agent：识别问题中..."),500);
+  setTimeout(()=> addMessage("👉 识别结果：CVR偏低"),1000);
+  setTimeout(()=> addMessage("🔍 Funnel Agent：点击正常，转化异常"),1500);
+  setTimeout(()=> addMessage("📉 Attribution Agent：问题在转化环节"),2000);
+  setTimeout(()=> addMessage("💡 Strategy Agent：建议优化落地页与人群匹配"),2500);
+
+}
+
+function askAI(){
+
+  let input = document.getElementById("userInput").value;
+
+  addMessage("🙋‍♂️ " + input);
+
+  setTimeout(()=>{
+    addMessage("🤖 AI：可以进一步测试不同素材与人群组合");
+  },1000);
+
+}
+
 </script>
 
 </body>
